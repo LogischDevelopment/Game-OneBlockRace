@@ -1,0 +1,12 @@
+name: OneBlockRace
+version: '1.0-SNAPSHOT'
+main: tv.logisch.oneBlockRace.OneBlockRace
+api-version: '1.21'
+authors: [Teekqu]
+description: Minigame for Logisch.tv
+website: https://www.teekqu.de/
+
+commands:
+  event:
+    description: Configure the oneblockrace event
+    usage: /event

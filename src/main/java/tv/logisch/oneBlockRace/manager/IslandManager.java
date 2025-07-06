@@ -1,0 +1,45 @@
+package tv.logisch.oneBlockRace.manager;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class IslandManager {
+
+    private int x1 = 0;
+    private int x2 = 0;
+    private int y = 30;
+    private int z = 0;
+
+    private List<Location> availableIslands;
+
+    public IslandManager(int width) {
+        this.availableIslands = new ArrayList<>();
+        Location loc = new Location(Bukkit.getWorld("world"), x1, y, z);
+        availableIslands.addLast(loc);
+        this.x1 = (int) width/2 + 5;
+        this.x2 = (int) -width/2 - 5;
+    }
+
+    public Location createIsland() {
+        if(!availableIslands.isEmpty()) {
+            Location loc = availableIslands.removeFirst();
+            loc.getBlock().setType(Material.BEDROCK);
+            return loc;
+        }
+        Location loc;
+        if(x1 < x2*(-1)) {
+            loc = new Location(GameManager.get().world(), x1, y, z);
+            x1 += 5;
+        } else {
+            loc = new Location(GameManager.get().world(), x2, y, z);
+            x2 -= 5;
+        }
+        loc.getBlock().setType(Material.BEDROCK);
+        return loc;
+    }
+
+}

@@ -1,0 +1,23 @@
+package tv.logisch.oneBlockRace.listener;
+
+import net.kyori.adventure.text.Component;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerQuitEvent;
+import tv.logisch.oneBlockRace.manager.GameManager;
+
+public class QuitListener implements Listener {
+
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent e) {
+
+        e.quitMessage(Component.empty());
+        for (var target : e.getPlayer().getServer().getOnlinePlayers()) {
+            target.sendMessage(Component.text("§c§lQUIT §8» §f" + e.getPlayer().getName() + " §7left the game!"));
+        }
+
+        GameManager.get().itemManager().removePlayer(e.getPlayer());
+
+    }
+
+}
