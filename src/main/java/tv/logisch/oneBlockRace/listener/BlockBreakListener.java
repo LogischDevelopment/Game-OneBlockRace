@@ -35,8 +35,8 @@ public class BlockBreakListener implements Listener {
         }
 
         int x = team.getIsland().getBlockX();
-        int x1 = x - GameManager.get().islandWidth()/2;
-        int x2 = x + GameManager.get().islandWidth()/2;
+        int x1 = x - GameManager.get().islandWidth();
+        int x2 = x + GameManager.get().islandWidth();
 
         if(x1 > x2) {
             int temp = x1;
