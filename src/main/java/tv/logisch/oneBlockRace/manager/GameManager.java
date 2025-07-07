@@ -102,7 +102,9 @@ public class GameManager {
             p.playSound(p, org.bukkit.Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
             p.setGameMode(GameMode.SPECTATOR);
             p.getInventory().clear();
-            p.sendMessage("§b§lOBR §8» §7The server stops in 15 seconds!");
+            p.sendMessage("§b§lOBR §8» §7The server stops in 1 minute!");
+            p.setAllowFlight(true);
+            p.setFlying(true);
         }
 
         itemManager.stop();
@@ -114,18 +116,37 @@ public class GameManager {
                 p.kick(Component.text("§b§lOBR §8» §7The server is restarting!"));
             }
             Bukkit.getServer().shutdown();
-        }, 300L);
+        }, 1200L); // 1 minute in ticks
 
     }
 
     int taskId;
     public void startTimer() {
         taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(OneBlockRace.instance(), () -> {
+            timeLeft--;
             if (timeLeft <= 0) {
                 stop();
                 Bukkit.getScheduler().cancelTask(taskId);
-            } else {
-                timeLeft--;
+                return;
+            } else if(
+                    timeLeft % 3600 == 0 || // every full hour
+                    timeLeft == 1800 || // 30 minutes
+                    timeLeft == 900 || // 15 minutes
+                    timeLeft == 300 || // 5 minutes
+                    timeLeft == 180 || // 3 minutes
+                    timeLeft == 120 || // 2 minutes
+                    timeLeft == 60 || // 1 minute
+                    timeLeft == 30 || // 30 seconds
+                    timeLeft == 15 || // 15 seconds
+                    timeLeft == 10 || // 10 seconds
+                    timeLeft == 5 || // 5 seconds
+                    timeLeft <= 3// 3 seconds and below
+            ) {
+                for (Player p : Bukkit.getOnlinePlayers()) {
+                    p.sendMessage("§b§lOBR §8» §7The game will end in §f" + Format.time(timeLeft) + "§7!");
+                    p.playSound(p, Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
+                }
+
             }
         }, 20, 20);
     }

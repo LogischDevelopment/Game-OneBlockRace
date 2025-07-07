@@ -1,5 +1,6 @@
 package tv.logisch.oneBlockRace.listener;
 
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.event.EventHandler;
@@ -13,10 +14,15 @@ public class PlayerMoveListener implements Listener {
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent e) {
+        if(!e.getPlayer().getGameMode().equals(GameMode.SURVIVAL)) return;
 
         Location f = e.getFrom();
         Location t = e.getTo();
         if(f.getBlockX() == t.getBlockX() && f.getBlockY() == t.getBlockY() && f.getBlockZ() == t.getBlockZ()) {
+            return;
+        }
+        if(GameManager.get().state().equals(GameState.STARTING)) {
+            e.setCancelled(true);
             return;
         }
         if(!GameManager.get().state().equals(GameState.RUNNING)) {
@@ -65,7 +71,7 @@ public class PlayerMoveListener implements Listener {
         int x2 = island.getBlockX() + GameManager.get().islandWidth();
 
         if(t.getBlockX() < x1 || t.getBlockX() > x2) {
-            e.getPlayer().setVelocity(e.getPlayer().getLocation().toVector().subtract(island.toVector()).normalize().multiply(-0.5));
+            e.setCancelled(true);
         }
 
     }
