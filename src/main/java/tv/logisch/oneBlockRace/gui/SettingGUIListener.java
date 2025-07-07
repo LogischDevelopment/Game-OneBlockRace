@@ -51,30 +51,34 @@ public class SettingGUIListener implements Listener {
 
         if(setting.equalsIgnoreCase("game_duration")) {
             if(e.isLeftClick() && !e.isShiftClick()) {
+                if(GameManager.get().time() <= 5 * 60) return;
                 GameManager.get().time(GameManager.get().time() - 5 * 60);
             } else if(e.isRightClick() && !e.isShiftClick()) {
                 GameManager.get().time(GameManager.get().time() + 5 * 60);
             } else if(e.isShiftClick() && e.isRightClick()) {
                 GameManager.get().time(GameManager.get().time() + 10 * 60);
             } else if(e.isShiftClick() && e.isLeftClick()) {
+                if(GameManager.get().time() <= 10 * 60) return;
                 GameManager.get().time(GameManager.get().time() - 10 * 60);
             }
         } else if(setting.equalsIgnoreCase("drop_interval")) {
             if(e.isLeftClick() && !e.isShiftClick()) {
+                if(GameManager.get().dropInterval() <= 1) return;
                 GameManager.get().dropInterval(GameManager.get().dropInterval() - 1);
             } else if(e.isRightClick() && !e.isShiftClick()) {
                 GameManager.get().dropInterval(GameManager.get().dropInterval() + 1);
             } else if(e.isShiftClick() && e.isRightClick()) {
                 GameManager.get().dropInterval(GameManager.get().dropInterval() + 5);
             } else if(e.isShiftClick() && e.isLeftClick()) {
+                if(GameManager.get().dropInterval() <= 5) return;
                 GameManager.get().dropInterval(GameManager.get().dropInterval() - 5);
             }
         } else if(setting.equalsIgnoreCase("island_width")) {
             if(e.isLeftClick()) {
-                if(GameManager.get().islandWidth() <= 3) return;
-                GameManager.get().islandWidth(GameManager.get().islandWidth() - 2);
+                if(GameManager.get().islandWidth() <= 0) return;
+                GameManager.get().islandWidth(GameManager.get().islandWidth() - 1);
             } else if(e.isRightClick()) {
-                GameManager.get().islandWidth(GameManager.get().islandWidth() + 2);
+                GameManager.get().islandWidth(GameManager.get().islandWidth() + 1);
             }
         } else if(setting.equalsIgnoreCase("keep_inventory")) {
             if(e.isLeftClick()) {
