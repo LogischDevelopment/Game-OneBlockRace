@@ -55,6 +55,7 @@ public final class OneBlockRace extends JavaPlugin {
         pm.registerEvents(new PlayerDeathListener(), this);
         pm.registerEvents(new PlayerMoveListener(), this);
         pm.registerEvents(new SettingGUIListener(), this);
+        pm.registerEvents(new VehicleMoveListener(), this);
 
         PluginCommand event = getCommand("event");
         event.setExecutor(new EventCommand());
