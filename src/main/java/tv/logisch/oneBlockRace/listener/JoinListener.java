@@ -25,6 +25,14 @@ public class JoinListener implements Listener {
 
         Player p = e.getPlayer();
         if(GameManager.get().state().equals(GameState.RUNNING)) {
+
+            Team team1 = GameManager.get().teamManager().getTeam(p);
+            if(team1 != null) {
+                team1.teleportToIsland(e.getPlayer());
+                GameManager.get().itemManager().addPlayer(e.getPlayer());
+                return;
+            }
+
             p.setGameMode(org.bukkit.GameMode.SURVIVAL);
             p.setAllowFlight(false);
             p.setFlying(false);
