@@ -63,6 +63,8 @@ public class Team {
     }
 
     public int getScore() {
+        if(placedBlocks.isEmpty()) return 0;
+        if(placedBlocks.getFirst() == null) return 0;
         return placedBlocks.getFirst().getLocation().getBlockZ();
     }
 

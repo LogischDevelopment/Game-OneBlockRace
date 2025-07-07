@@ -37,7 +37,7 @@ public class Scoreboard extends ScoreboardManager {
     @Override
     public void update() {
 
-        if(player == null) return;
+        if(player == null || !player.isOnline()) return;
         List<Team> top = GameManager.get().teamManager().getTop(3);
         List<String> topNames = new ArrayList<>();
         for(int i = 0; i < 3; i++) {

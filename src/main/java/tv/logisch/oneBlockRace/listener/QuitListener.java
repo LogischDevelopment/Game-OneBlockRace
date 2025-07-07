@@ -5,6 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import tv.logisch.oneBlockRace.manager.GameManager;
+import tv.logisch.oneBlockRace.scoreboard.Scoreboard;
 
 public class QuitListener implements Listener {
 
@@ -17,6 +18,7 @@ public class QuitListener implements Listener {
         }
 
         GameManager.get().itemManager().removePlayer(e.getPlayer());
+        Scoreboard.scoreboards.removeIf(s -> s.getPlayer().getUniqueId().equals(e.getPlayer().getUniqueId()));
 
     }
 
