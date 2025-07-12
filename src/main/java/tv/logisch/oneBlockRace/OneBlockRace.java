@@ -3,6 +3,7 @@ package tv.logisch.oneBlockRace;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 import org.bukkit.Bukkit;
+import org.bukkit.GameRule;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -56,10 +57,19 @@ public final class OneBlockRace extends JavaPlugin {
         pm.registerEvents(new PlayerMoveListener(), this);
         pm.registerEvents(new SettingGUIListener(), this);
         pm.registerEvents(new VehicleMoveListener(), this);
+        pm.registerEvents(new PlayerBucketEmptyListener(), this);
+        pm.registerEvents(new PlayerInteractListener(), this);
+        pm.registerEvents(new EntityPlaceListener(), this);
+        pm.registerEvents(new PlayerLoginListener(), this);
+        pm.registerEvents(new BlockRedstoneListener(), this);
 
         PluginCommand event = getCommand("event");
         event.setExecutor(new EventCommand());
         event.setTabCompleter(new EventCompletion());
+
+        Bukkit.getWorlds().forEach(w -> {
+            w.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
+        });
 
     }
 
