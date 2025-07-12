@@ -88,6 +88,10 @@ public class SettingGUIListener implements Listener {
             if(e.isLeftClick()) {
                 GameManager.get().canDestroy(!GameManager.get().canDestroy());
             }
+        } else if(setting.equalsIgnoreCase("gravity")) {
+            if(e.isLeftClick()) {
+                GameManager.get().gravity(!GameManager.get().gravity());
+            }
         } else {
             return;
         }
