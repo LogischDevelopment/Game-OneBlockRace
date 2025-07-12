@@ -1,12 +1,11 @@
 package tv.logisch.oneBlockRace.scoreboard;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.*;
 import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.Team;
 
 public abstract class ScoreboardManager {
     protected final Scoreboard scoreboard;
@@ -23,11 +22,12 @@ public abstract class ScoreboardManager {
 
         this.scoreboard = player.getScoreboard();
 
-        if(this.scoreboard.getObjective("display") != null) {
-            this.scoreboard.getObjective("display").unregister();
+        Objective display = this.scoreboard.getObjective("display");
+        if(display != null) {
+            display.unregister();
         }
 
-        this.objective = this.scoreboard.registerNewObjective("display", "dummy", displayName);
+        this.objective = this.scoreboard.registerNewObjective("display", Criteria.DUMMY, Component.text(displayName));
         this.objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 
         createScoreboard();
@@ -38,7 +38,7 @@ public abstract class ScoreboardManager {
     public abstract void update();
 
     public void setDisplayName(String displayName) {
-        this.objective.setDisplayName(displayName);
+        this.objective.displayName(Component.text(displayName));
     }
 
     public void setScore(String content, int score) {
@@ -48,7 +48,7 @@ public abstract class ScoreboardManager {
             return;
         }
 
-        team.setPrefix(content);
+        team.prefix(Component.text(content));
         showScore(score);
     }
 
