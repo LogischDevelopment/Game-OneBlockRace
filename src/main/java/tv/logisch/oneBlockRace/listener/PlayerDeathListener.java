@@ -20,8 +20,9 @@ public class PlayerDeathListener implements Listener {
             return;
         }
 
-        if(p.getLocation().getBlockY() > 30) {
+        if(p.getLocation().getBlockY() > GameManager.get().islandManager().y() - 5) {
             e.setCancelled(true);
+            return;
         }
 
         if(e.getFinalDamage() >= p.getHealth()) {
