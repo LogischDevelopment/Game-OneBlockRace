@@ -1,6 +1,7 @@
 package tv.logisch.oneBlockRace.scoreboard;
 
 import org.bukkit.entity.Player;
+import tv.logisch.oneBlockRace.enums.GameState;
 import tv.logisch.oneBlockRace.manager.GameManager;
 import tv.logisch.oneBlockRace.team.Team;
 
@@ -13,12 +14,14 @@ public class Scoreboard extends ScoreboardManager {
 
     public Scoreboard(Player player) {
         super(player, "    ①    ");
-        scoreboards.removeIf(scoreboard -> scoreboard.getPlayer().getUniqueId().equals(player.getUniqueId()));
-        scoreboards.add(this);
     }
 
     @Override
     public void createScoreboard() {
+        if(GameManager.get().state().equals(GameState.RUNNING)) {
+            this.update();
+            return;
+        }
         setScore("§0", 12);
         setScore("§3§l» Top 3", 11);
         setScore("§f1§8. §fN/A", 10);
