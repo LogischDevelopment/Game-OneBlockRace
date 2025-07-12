@@ -1,5 +1,7 @@
 package tv.logisch.oneBlockRace.manager;
 
+import lombok.Getter;
+import lombok.experimental.Accessors;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -11,6 +13,7 @@ public class IslandManager {
 
     private int x1 = 0;
     private int x2 = 0;
+    @Getter @Accessors(fluent = true)
     private int y = 30;
     private int z = 0;
 
