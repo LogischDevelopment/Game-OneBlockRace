@@ -88,8 +88,7 @@ public class GameManager {
 
             itemManager.start();
             this.startTimer();
-            AnimationUtils.startAnimation(); // ANIMATION BUGGY
-
+            AnimationUtils.startAnimation();
         });
 
     }
