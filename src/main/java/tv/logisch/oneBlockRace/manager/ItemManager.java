@@ -66,7 +66,7 @@ public class ItemManager {
         Item item = null;
         while(item == null) {
             Material material = Material.values()[new Random().nextInt(Material.values().length)];
-            if(material.isItem() && !material.name().contains("_SPAWN_EGG") && !material.equals(Material.ENDER_PEARL)) {
+            if(material.isItem() && !material.name().contains("_SPAWN_EGG") && !material.equals(Material.ENDER_PEARL) && !material.name().contains("_BED")) {
                 ItemStack stack = new ItemStack(material);
                 item = loc.getWorld().spawn(loc.clone().add(0, 0.5, 0), Item.class);
                 item.setItemStack(stack);
