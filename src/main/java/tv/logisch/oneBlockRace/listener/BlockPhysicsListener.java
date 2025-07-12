@@ -39,6 +39,7 @@ public class BlockPhysicsListener implements Listener {
 
     @EventHandler
     public void onEntityChangeBlock(EntityChangeBlockEvent event) {
+        if(GameManager.get().gravity()) return;
         if (event.getEntityType() == EntityType.FALLING_BLOCK) {
             event.setCancelled(true);
         }
