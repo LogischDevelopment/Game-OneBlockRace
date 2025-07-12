@@ -20,8 +20,8 @@ public class IslandManager {
         this.availableIslands = new ArrayList<>();
         Location loc = new Location(Bukkit.getWorld("world"), x1, y, z);
         availableIslands.addLast(loc);
-        this.x1 = (int) width/2 + 5;
-        this.x2 = (int) -width/2 - 5;
+        this.x1 = (int) width/2 + 8;
+        this.x2 = (int) -width/2 - 8;
     }
 
     public Location createIsland() {
