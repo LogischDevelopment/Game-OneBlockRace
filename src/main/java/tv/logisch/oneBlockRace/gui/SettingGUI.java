@@ -114,6 +114,19 @@ public class SettingGUI {
         });
         this.inventory.setItem(22, stack);
 
+        /* GRAVITY */
+        stack = new ItemStack(Material.RED_DYE, 1);
+        if(GameManager.get().gravity()) stack = new ItemStack(Material.GREEN_DYE, 1);
+        stack.editMeta(meta -> {
+            meta.displayName(Component.text("§8» §7Gravity"));
+            List<Component> lore = new ArrayList<>();
+            lore.add(Component.text("§7Current: §f" + (GameManager.get().gravity() ? "Enabled" : "Disabled")));
+            lore.add(Component.text("§fL-click§8: §7Toggle gravity"));
+            meta.lore(lore);
+            meta.getPersistentDataContainer().set(new NamespacedKey("obr", "setting"), PersistentDataType.STRING, "gravity");
+        });
+        this.inventory.setItem(16, stack);
+
         /* KEEP INVENTORY */
         stack = new ItemStack(Material.RED_DYE, 1);
         if(GameManager.get().keepInventory()) stack = new ItemStack(Material.GREEN_DYE, 1);
@@ -125,7 +138,7 @@ public class SettingGUI {
             meta.lore(lore);
             meta.getPersistentDataContainer().set(new NamespacedKey("obr", "setting"), PersistentDataType.STRING, "keep_inventory");
         });
-        this.inventory.setItem(24, stack);
+        this.inventory.setItem(33, stack);
 
         /* CAN DESTROY */
         stack = new ItemStack(Material.RED_DYE, 1);
@@ -138,7 +151,7 @@ public class SettingGUI {
             meta.lore(lore);
             meta.getPersistentDataContainer().set(new NamespacedKey("obr", "setting"), PersistentDataType.STRING, "can_destroy");
         });
-        this.inventory.setItem(26, stack);
+        this.inventory.setItem(35, stack);
 
         this.p.openInventory(this.inventory);
 
