@@ -30,6 +30,7 @@ public class JoinListener implements Listener {
             if(team1 != null) {
                 team1.teleportToIsland(e.getPlayer());
                 GameManager.get().itemManager().addPlayer(e.getPlayer());
+                Scoreboard.scoreboards.add(new Scoreboard(p));
                 return;
             }
 
@@ -55,7 +56,7 @@ public class JoinListener implements Listener {
             e.getPlayer().teleport(e.getPlayer().getWorld().getSpawnLocation());
         }
 
-        new Scoreboard(p);
+        Scoreboard.scoreboards.add(new Scoreboard(p));
 
     }
 
