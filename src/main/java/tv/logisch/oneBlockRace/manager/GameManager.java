@@ -34,6 +34,7 @@ public class GameManager {
     private int islandWidth = 2;
     private boolean keepInventory = false;
     private boolean canDestroy = false;
+    private boolean gravity = true;
     private long time = 1800;
     private long timeLeft = time;
 
