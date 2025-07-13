@@ -26,7 +26,7 @@ public class PlayerMoveListener implements Listener {
             return;
         }
         if(!GameManager.get().state().equals(GameState.RUNNING)) {
-            if(t.getBlockY() < 20) {
+            if(t.getBlockY() < 50) {
                 e.getPlayer().teleport(e.getPlayer().getWorld().getSpawnLocation());
             }
             return;
