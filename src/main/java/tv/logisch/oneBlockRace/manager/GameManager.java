@@ -28,7 +28,7 @@ public class GameManager {
     }
 
     private GameState state = GameState.WAITING;
-    private World world = Bukkit.getWorld("world");
+    private World world;
     private long dropInterval = 10;
     private long teamSize = 1;
     private int islandWidth = 2;
@@ -43,6 +43,7 @@ public class GameManager {
     private IslandManager islandManager;
 
     public GameManager() {
+        this.world = Bukkit.createWorld(new WorldCreator("world"));
         this.teamManager = new TeamManager();
         this.islandManager = new IslandManager(islandWidth);
         this.itemManager = new ItemManager(teamManager, "§b§lOBR §8» §7Next drop in §f%S% §7seconds!");

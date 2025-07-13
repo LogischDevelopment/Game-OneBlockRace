@@ -2,9 +2,7 @@ package tv.logisch.oneBlockRace.manager;
 
 import lombok.Getter;
 import lombok.experimental.Accessors;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +19,8 @@ public class IslandManager {
 
     public IslandManager(int width) {
         this.availableIslands = new ArrayList<>();
-        Location loc = new Location(Bukkit.getWorld("world"), x1, y, z);
+        World  world = Bukkit.createWorld(new WorldCreator("world"));
+        Location loc = new Location(world, x1, y, z);
         availableIslands.addLast(loc);
         this.x1 = (int) width/2 + 8;
         this.x2 = (int) -width/2 - 8;
