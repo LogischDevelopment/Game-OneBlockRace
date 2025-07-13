@@ -1,7 +1,6 @@
 package tv.logisch.oneBlockRace.scoreboard;
 
 import net.kyori.adventure.text.Component;
-import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.*;
@@ -16,18 +15,14 @@ public abstract class ScoreboardManager {
     public ScoreboardManager(Player player, String displayName) {
         this.player = player;
 
-        if(player.getScoreboard().equals(Bukkit.getScoreboardManager().getMainScoreboard())) {
-            player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
-        }
-
         this.scoreboard = player.getScoreboard();
 
-        Objective display = this.scoreboard.getObjective("display");
+        Objective display = this.scoreboard.getObjective("logiobr");
         if(display != null) {
             display.unregister();
         }
 
-        this.objective = this.scoreboard.registerNewObjective("display", Criteria.DUMMY, Component.text(displayName));
+        this.objective = this.scoreboard.registerNewObjective("logiobr", Criteria.DUMMY, Component.text(displayName));
         this.objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 
         createScoreboard();
