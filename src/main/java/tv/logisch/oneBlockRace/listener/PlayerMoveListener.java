@@ -14,7 +14,7 @@ public class PlayerMoveListener implements Listener {
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent e) {
-        if(!e.getPlayer().getGameMode().equals(GameMode.SURVIVAL)) return;
+        if(!e.getPlayer().getGameMode().equals(GameMode.SURVIVAL) && !e.getPlayer().getGameMode().equals(GameMode.ADVENTURE)) return;
 
         Location f = e.getFrom();
         Location t = e.getTo();
@@ -27,13 +27,13 @@ public class PlayerMoveListener implements Listener {
         }
         if(!GameManager.get().state().equals(GameState.RUNNING)) {
             if(t.getBlockY() < 50) {
-                e.getPlayer().teleport(e.getPlayer().getWorld().getSpawnLocation());
+                e.setTo(e.getPlayer().getWorld().getSpawnLocation().clone().add(0.5, 1, 0.5));
             }
             return;
         }
         if(GameManager.get().teamManager().getTeam(e.getPlayer()) == null) {
             if(t.getBlockY() < 20) {
-                e.getPlayer().teleport(e.getPlayer().getWorld().getSpawnLocation());
+                e.setTo(e.getPlayer().getWorld().getSpawnLocation().clone().add(0.5, 1, 0.5));
             }
             return;
         }
