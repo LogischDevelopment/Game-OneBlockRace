@@ -56,7 +56,7 @@ public class JoinListener implements Listener {
             GameManager.get().itemManager().addPlayer(e.getPlayer());
         } else {
             e.getPlayer().setGameMode(GameMode.ADVENTURE);
-            e.getPlayer().teleport(e.getPlayer().getWorld().getSpawnLocation().clone().add(0.5, 1, 0.5));
+            e.getPlayer().teleport(e.getPlayer().getWorld().getSpawnLocation().clone().add(0, 1, 0));
         }
 
         Scoreboard.scoreboards.add(new Scoreboard(p));

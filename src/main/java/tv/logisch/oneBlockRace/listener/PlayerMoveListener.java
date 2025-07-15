@@ -27,7 +27,7 @@ public class PlayerMoveListener implements Listener {
         }
         if(!GameManager.get().state().equals(GameState.RUNNING)) {
             if(t.getBlockY() < 50) {
-                e.setTo(e.getPlayer().getWorld().getSpawnLocation().clone().add(0.5, 1, 0.5));
+                e.setTo(e.getPlayer().getWorld().getSpawnLocation().clone().add(0, 1, 0));
             }
             return;
         }
