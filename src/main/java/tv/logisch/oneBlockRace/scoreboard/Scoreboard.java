@@ -66,6 +66,7 @@ public class Scoreboard extends ScoreboardManager {
         for(int i = 0; i < 3; i++) {
             Team t = around.get(i);
             if(t == null) {
+                aroundNames.add("§4");
                 continue;
             }
             String name = t.players().getFirst().getName();
@@ -73,10 +74,6 @@ public class Scoreboard extends ScoreboardManager {
                 name = name.substring(0, 13);
             }
             aroundNames.add((place-1+i) + "§8. §f" + name + " §8(§f" + t.getScore() + "§8)");
-        }
-
-        for(int i = 0; i < 13; i++) {
-            removeScore(i);
         }
 
         int score = 0;
