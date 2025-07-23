@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.experimental.Accessors;
 import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
+import org.bukkit.WorldCreator;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -68,6 +69,8 @@ public final class OneBlockRace extends JavaPlugin {
         PluginCommand event = getCommand("event");
         event.setExecutor(new EventCommand());
         event.setTabCompleter(new EventCompletion());
+
+        Bukkit.createWorld(new WorldCreator("world"));
 
         Bukkit.getWorlds().forEach(w -> {
             w.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
