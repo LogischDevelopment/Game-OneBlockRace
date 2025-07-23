@@ -4,17 +4,20 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.title.TitlePart;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import tv.logisch.oneBlockRace.OneBlockRace;
 import tv.logisch.oneBlockRace.enums.GameState;
+import tv.logisch.oneBlockRace.scoreboard.Scoreboard;
 import tv.logisch.oneBlockRace.team.Team;
 import tv.logisch.oneBlockRace.team.TeamManager;
 import tv.logisch.oneBlockRace.utils.AnimationUtils;
 import tv.logisch.oneBlockRace.utils.Format;
 
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Getter
 @Setter
@@ -90,6 +93,7 @@ public class GameManager {
 
             itemManager.start();
             this.startTimer();
+            this.startScoreboardUpdater();
             AnimationUtils.startAnimation();
         });
 
@@ -97,9 +101,20 @@ public class GameManager {
 
     public void stop() {
         state = GameState.ENDING;
+        Bukkit.getScheduler().cancelTask(scoreboardTaskId);
+        itemManager.stop();
+        AnimationUtils.stopAnimation();
+
+        Scoreboard.scoreboards.forEach(Scoreboard::update);
+
+        Team winner = GameManager.get().teamManager().getTop(1).stream().findFirst().orElse(null);
+        String winnerName = winner != null ? "§a§l" + winner.players().getFirst().getName() + " §8(§f"+winner.getScore()+"§8)" : "N/A §8(§f0§8)";
 
         for(Player p : Bukkit.getOnlinePlayers()) {
             p.sendMessage("§b§lOBR §8» §7The game has ended!");
+            p.sendMessage("§b§lOBR §8» §7Winner: " + winnerName);
+            p.sendTitlePart(TitlePart.TITLE, Component.text(winnerName));
+            p.sendTitlePart(TitlePart.SUBTITLE, Component.text("§7Congratulations!"));
             p.playSound(p, org.bukkit.Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
             p.setGameMode(GameMode.SPECTATOR);
             p.getInventory().clear();
@@ -108,17 +123,29 @@ public class GameManager {
             p.setFlying(true);
         }
 
-        itemManager.stop();
-        AnimationUtils.stopAnimation();
         state = GameState.ENDED;
 
-        Bukkit.getScheduler().runTaskLater(OneBlockRace.instance(), () -> {
-            for (Player p : Bukkit.getOnlinePlayers()) {
-                p.kick(Component.text("§b§lOBR §8» §7The server is restarting!"));
+        AtomicInteger stopSeconds = new AtomicInteger(60);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(OneBlockRace.instance(), () -> {
+            stopSeconds.getAndDecrement();
+            if(stopSeconds.get() == 30 || stopSeconds.get() == 15 || stopSeconds.get() == 10 || stopSeconds.get() <= 5) {
+                for(Player p : Bukkit.getOnlinePlayers()) {
+                    p.sendMessage("§b§lOBR §8» §7The server will stop in §f" + stopSeconds + "§7 seconds!");
+                    p.playSound(p, Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
+                }
             }
-            Bukkit.getServer().shutdown();
-        }, 1200L); // 1 minute in ticks
+            if(stopSeconds.get() <= 0) {
+                Bukkit.getServer().shutdown();
+            }
+        }, 20, 20);
 
+    }
+
+    int scoreboardTaskId = 0;
+    public void startScoreboardUpdater() {
+        scoreboardTaskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(OneBlockRace.instance(), () -> {
+            Scoreboard.scoreboards.forEach(Scoreboard::update);
+        }, 20, 20);
     }
 
     int taskId;
