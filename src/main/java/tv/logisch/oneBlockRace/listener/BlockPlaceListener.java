@@ -44,7 +44,6 @@ public class BlockPlaceListener implements Listener {
         }
 
         team.addBlock(e.getBlockPlaced());
-        Scoreboard.scoreboards.forEach(Scoreboard::update);
 
     }
 

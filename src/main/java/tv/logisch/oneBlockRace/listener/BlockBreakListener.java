@@ -49,7 +49,6 @@ public class BlockBreakListener implements Listener {
         }
 
         team.removeBlock(e.getBlock());
-        Scoreboard.scoreboards.forEach(Scoreboard::update);
 
     }
 
