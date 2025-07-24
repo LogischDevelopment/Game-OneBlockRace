@@ -34,10 +34,10 @@ public class IslandManager {
         }
         Location loc;
         if(x1 < x2*(-1)) {
-            loc = new Location(GameManager.get().world(), x1, y, z);
+            loc = new Location(GameManager.get().gameWorld(), x1, y, z);
             x1 += GameManager.get().islandWidth()*2 + 5;
         } else {
-            loc = new Location(GameManager.get().world(), x2, y, z);
+            loc = new Location(GameManager.get().gameWorld(), x2, y, z);
             x2 -= GameManager.get().islandWidth()*2 + 5;
         }
         loc.getBlock().setType(Material.BEDROCK);
