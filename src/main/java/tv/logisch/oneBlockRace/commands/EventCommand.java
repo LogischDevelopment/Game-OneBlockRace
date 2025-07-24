@@ -5,7 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 import tv.logisch.oneBlockRace.enums.GameState;
-import tv.logisch.oneBlockRace.gui.SettingGUI;
+import tv.logisch.oneBlockRace.gui.setting.DurationGUI;
 import tv.logisch.oneBlockRace.manager.GameManager;
 
 public class EventCommand implements CommandExecutor {
@@ -41,7 +41,7 @@ public class EventCommand implements CommandExecutor {
                 p.sendMessage("§b§lOBR §8» §cYou can only change settings when the game is not running!");
                 return true;
             }
-            SettingGUI.get(p).open();
+            DurationGUI.get(p).open();
             p.sendMessage("§b§lOBR §8» §aSettings menu opened!");
             return true;
         } else if(subCommand.equalsIgnoreCase("info")) {
