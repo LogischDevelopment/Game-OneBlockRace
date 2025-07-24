@@ -103,6 +103,7 @@ public class ShopGUIListener implements Listener {
             p.getInventory().addItem(item);
             Component name = item.getItemMeta().displayName();
             p.sendMessage(OneBlockRace.instance().prefix() + "§aYou have bought " + item.getAmount() + "x " + (name == null ? "Unknown" : PlainTextComponentSerializer.plainText().serialize(name)) + " for §e" + cost + " coins§a.");
+            p.sendActionBar(Component.text(OneBlockRace.instance().prefix()+"Current coins: §f" + team.coins()));
             p.playSound(p, Sound.BLOCK_NOTE_BLOCK_BASS, 1.0f, 1.0f);
             return;
         }

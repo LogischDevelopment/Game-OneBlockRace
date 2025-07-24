@@ -37,10 +37,6 @@ public class EventCommand implements CommandExecutor {
             p.sendMessage("§b§lOBR §8» §aThe game has been started!");
             return true;
         } else if(subCommand.equalsIgnoreCase("settings")) {
-            if(!GameManager.get().state().equals(GameState.WAITING)) {
-                p.sendMessage("§b§lOBR §8» §cYou can only change settings when the game is not running!");
-                return true;
-            }
             DurationGUI.get(p).open();
             p.sendMessage("§b§lOBR §8» §aSettings menu opened!");
             return true;

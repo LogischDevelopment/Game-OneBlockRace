@@ -15,6 +15,7 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import tv.logisch.oneBlockRace.OneBlockRace;
+import tv.logisch.oneBlockRace.enums.GameState;
 import tv.logisch.oneBlockRace.manager.GameManager;
 
 public class SettingGUIListener implements Listener {
@@ -72,6 +73,7 @@ public class SettingGUIListener implements Listener {
 
         switch (action) {
             case "game_duration" -> {
+                if(!GameManager.get().state().equals(GameState.WAITING)) return;
                 if (e.isLeftClick() && !e.isShiftClick()) {
                     if (GameManager.get().time() <= 5 * 60) return;
                     GameManager.get().time(GameManager.get().time() - 5 * 60);
@@ -83,10 +85,12 @@ public class SettingGUIListener implements Listener {
                     if (GameManager.get().time() <= 15 * 60) return;
                     GameManager.get().time(GameManager.get().time() - 15 * 60);
                 }
+                p.playSound(p, Sound.BLOCK_NOTE_BLOCK_BASS, 1.0f, 1.0f);
                 DurationGUI.guis.forEach(DurationGUI::update);
                 return;
             }
             case "drop_interval" -> {
+                if(!GameManager.get().state().equals(GameState.WAITING)) return;
                 if (e.isLeftClick() && !e.isShiftClick()) {
                     if (GameManager.get().dropInterval() <= 1) return;
                     GameManager.get().dropInterval(GameManager.get().dropInterval() - 1);
@@ -98,10 +102,12 @@ public class SettingGUIListener implements Listener {
                     if (GameManager.get().dropInterval() <= 5) return;
                     GameManager.get().dropInterval(GameManager.get().dropInterval() - 5);
                 }
+                p.playSound(p, Sound.BLOCK_NOTE_BLOCK_BASS, 1.0f, 1.0f);
                 DurationGUI.guis.forEach(DurationGUI::update);
                 return;
             }
             case "shopping_duration" -> {
+                if(!GameManager.get().state().equals(GameState.WAITING) && !GameManager.get().state().equals(GameState.STARTING)  && !GameManager.get().state().equals(GameState.RUNNING)) return;
                 if (e.isLeftClick() && !e.isShiftClick()) {
                     if (GameManager.get().shoppingTime() <= 5) return;
                     GameManager.get().shoppingTime(GameManager.get().shoppingTime() - 5);
@@ -113,44 +119,55 @@ public class SettingGUIListener implements Listener {
                     if (GameManager.get().shoppingTime() <= 10) return;
                     GameManager.get().shoppingTime(GameManager.get().shoppingTime() - 10);
                 }
+                p.playSound(p, Sound.BLOCK_NOTE_BLOCK_BASS, 1.0f, 1.0f);
                 DurationGUI.guis.forEach(DurationGUI::update);
                 return;
             }
             case "island_width" -> {
+                if(!GameManager.get().state().equals(GameState.WAITING) && !GameManager.get().state().equals(GameState.STARTING) && !GameManager.get().state().equals(GameState.RUNNING)) return;
                 if (e.isLeftClick()) {
                     if (GameManager.get().islandWidth() <= 1) return;
                     GameManager.get().islandWidth(GameManager.get().islandWidth() - 1);
                 } else if (e.isRightClick()) {
                     GameManager.get().islandWidth(GameManager.get().islandWidth() + 1);
                 }
+                p.playSound(p, Sound.BLOCK_NOTE_BLOCK_BASS, 1.0f, 1.0f);
                 IslandGUI.guis.forEach(IslandGUI::update);
                 return;
             }
             case "toggle_pvp_phase" -> {
+                if(!GameManager.get().state().equals(GameState.WAITING) && !GameManager.get().state().equals(GameState.STARTING) && !GameManager.get().state().equals(GameState.RUNNING)) return;
                 if (e.isLeftClick()) {
                     GameManager.get().pvpPhase(!GameManager.get().pvpPhase());
                 }
+                p.playSound(p, Sound.BLOCK_NOTE_BLOCK_BASS, 1.0f, 1.0f);
                 UtilityGUI.guis.forEach(UtilityGUI::update);
                 return;
             }
             case "toggle_destroying" -> {
+                if(!GameManager.get().state().equals(GameState.WAITING) && !GameManager.get().state().equals(GameState.STARTING) && !GameManager.get().state().equals(GameState.RUNNING)) return;
                 if (e.isLeftClick()) {
                     GameManager.get().canDestroy(!GameManager.get().canDestroy());
                 }
+                p.playSound(p, Sound.BLOCK_NOTE_BLOCK_BASS, 1.0f, 1.0f);
                 UtilityGUI.guis.forEach(UtilityGUI::update);
                 return;
             }
             case "toggle_keep_inventory" -> {
+                if(!GameManager.get().state().equals(GameState.WAITING) && !GameManager.get().state().equals(GameState.STARTING) && !GameManager.get().state().equals(GameState.RUNNING)) return;
                 if (e.isLeftClick()) {
                     GameManager.get().keepInventory(!GameManager.get().keepInventory());
                 }
+                p.playSound(p, Sound.BLOCK_NOTE_BLOCK_BASS, 1.0f, 1.0f);
                 UtilityGUI.guis.forEach(UtilityGUI::update);
                 return;
             }
             case "toggle_gravity" -> {
+                if(!GameManager.get().state().equals(GameState.WAITING) && !GameManager.get().state().equals(GameState.STARTING) && !GameManager.get().state().equals(GameState.RUNNING)) return;
                 if (e.isLeftClick()) {
                     GameManager.get().gravity(!GameManager.get().gravity());
                 }
+                p.playSound(p, Sound.BLOCK_NOTE_BLOCK_BASS, 1.0f, 1.0f);
                 UtilityGUI.guis.forEach(UtilityGUI::update);
                 return;
             }

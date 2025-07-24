@@ -162,6 +162,11 @@ public class GameManager {
                 Bukkit.getOnlinePlayers().forEach(p -> {
                     p.sendMessage(OneBlockRace.instance().prefix() + "The pvp phase starts in §f" + this.shoppingTime + "§7 seconds!");
                     p.playSound(p, Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
+                    p.sendActionBar(Component.text(OneBlockRace.instance().prefix()+"Current coins: §f"+this.teamManager.getTeam(p).coins()));
+                });
+            } else {
+                Bukkit.getOnlinePlayers().forEach(p -> {
+                    p.sendActionBar(Component.text(OneBlockRace.instance().prefix()+"Current coins: §f"+this.teamManager.getTeam(p).coins()));
                 });
             }
             this.shoppingTime--;
