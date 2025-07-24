@@ -11,7 +11,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import tv.logisch.api.LogiAPI;
 import tv.logisch.oneBlockRace.commands.EventCommand;
 import tv.logisch.oneBlockRace.commands.completions.EventCompletion;
-import tv.logisch.oneBlockRace.gui.SettingGUIListener;
+import tv.logisch.oneBlockRace.gui.setting.SettingGUIListener;
+import tv.logisch.oneBlockRace.gui.shop.ShopGUIListener;
 import tv.logisch.oneBlockRace.listener.*;
 import tv.logisch.oneBlockRace.objects.GameConfig;
 import tv.logisch.oneBlockRace.utils.Config;
@@ -29,6 +30,8 @@ public final class OneBlockRace extends JavaPlugin {
     private Logger logger;
     private GameConfig gameConfig;
     private LogiAPI logiAPI;
+
+    private final String prefix = "§b§lOBR §8» §7";
 
     @Override
     public void onLoad() {
@@ -57,6 +60,7 @@ public final class OneBlockRace extends JavaPlugin {
         pm.registerEvents(new PlayerDeathListener(), this);
         pm.registerEvents(new PlayerMoveListener(), this);
         pm.registerEvents(new SettingGUIListener(), this);
+        pm.registerEvents(new ShopGUIListener(), this);
         pm.registerEvents(new VehicleMoveListener(), this);
         pm.registerEvents(new PlayerBucketEmptyListener(), this);
         pm.registerEvents(new PlayerInteractListener(), this);
@@ -71,6 +75,8 @@ public final class OneBlockRace extends JavaPlugin {
         event.setTabCompleter(new EventCompletion());
 
         Bukkit.createWorld(new WorldCreator("world"));
+        Bukkit.createWorld(new WorldCreator("waiting")).setGameRule(GameRule.RANDOM_TICK_SPEED, 0);
+        Bukkit.createWorld(new WorldCreator("pvp"));
 
         Bukkit.getWorlds().forEach(w -> {
             w.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);

@@ -34,6 +34,13 @@ public abstract class ScoreboardManager {
 
     public abstract void update();
 
+    public void unregister() {
+        Objective obj = this.scoreboard.getObjective("logiobr");
+        if(obj != null) {
+            obj.unregister();
+        }
+    }
+
     public void setDisplayName(String displayName) {
         this.objective.displayName(Component.text(displayName));
     }

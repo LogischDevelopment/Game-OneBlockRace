@@ -20,12 +20,24 @@ public class JoinListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
 
-        e.joinMessage(Component.empty());
-        for(Player target : Bukkit.getOnlinePlayers()) {
-            target.sendMessage(Component.text("§a§lJOIN §8» §f" + e.getPlayer().getName() + " §7joined the game!"));
+        if(GameManager.get().state().equals(GameState.STARTING) || GameManager.get().state().equals(GameState.ENDING)) {
+            e.getPlayer().kick(Component.text("§c§lOBR §8» §7The game currently does not allow joining!"));
+            return;
         }
 
         Player p = e.getPlayer();
+        e.joinMessage(Component.empty());
+        for(Player target : Bukkit.getOnlinePlayers()) {
+            target.sendMessage(Component.text("§a§lJOIN §8» §f" + p.getName() + " §7joined the game!"));
+        }
+
+        if(GameManager.get().state().equals(GameState.WAITING)) {
+            e.getPlayer().setGameMode(GameMode.ADVENTURE);
+            e.getPlayer().teleport(GameManager.get().waitingWorld().getSpawnLocation());
+            Scoreboard.scoreboards.add(new Scoreboard(p));
+            return;
+        }
+
         if(GameManager.get().state().equals(GameState.RUNNING)) {
 
             Team team1 = GameManager.get().teamManager().getTeam(p);
@@ -54,12 +66,23 @@ public class JoinListener implements Listener {
             GameManager.get().teamManager().addTeam(team);
             team.teleportToIsland(p);
             GameManager.get().itemManager().addPlayer(e.getPlayer());
-        } else {
-            e.getPlayer().setGameMode(GameMode.ADVENTURE);
-            e.getPlayer().teleport(e.getPlayer().getWorld().getSpawnLocation().clone().add(0, 1, 0));
+            Scoreboard.scoreboards.add(new Scoreboard(p));
+            return;
         }
 
-        Scoreboard.scoreboards.add(new Scoreboard(p));
+        if(GameManager.get().state().equals(GameState.SHOPPING)) {
+            e.getPlayer().setGameMode(GameMode.ADVENTURE);
+            e.getPlayer().teleport(GameManager.get().waitingWorld().getSpawnLocation());
+            Scoreboard.scoreboards.add(new Scoreboard(p));
+            return;
+        }
+
+        if(GameManager.get().state().equals(GameState.PVP)) {
+            e.getPlayer().setGameMode(GameMode.SPECTATOR);
+            e.getPlayer().teleport(GameManager.get().pvpWorld().getSpawnLocation());
+            Scoreboard.scoreboards.add(new Scoreboard(p));
+            return;
+        }
 
     }
 
