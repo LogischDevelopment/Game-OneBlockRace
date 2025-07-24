@@ -85,7 +85,7 @@ public class IslandGUI {
             m.lore(List.of(
                 Component.text("§7Click to setup the island settings")
             ));
-            m.getPersistentDataContainer().set(GameManager.get().shopKey(), PersistentDataType.STRING, "open_island");
+            m.getPersistentDataContainer().set(GameManager.get().settingsKey(), PersistentDataType.STRING, "open_island");
         });
         this.inventory.setItem(18, itemStack);
         ItemStack activeCategory = new ItemStack(Material.LIME_STAINED_GLASS_PANE);
@@ -98,7 +98,7 @@ public class IslandGUI {
             m.lore(List.of(
                 Component.text("§7Click to setup the utilities settings")
             ));
-            m.getPersistentDataContainer().set(GameManager.get().shopKey(), PersistentDataType.STRING, "open_utilities");
+            m.getPersistentDataContainer().set(GameManager.get().settingsKey(), PersistentDataType.STRING, "open_utilities");
         });
         this.inventory.setItem(27, itemStack);
         this.inventory.setItem(28, placeholderStack);

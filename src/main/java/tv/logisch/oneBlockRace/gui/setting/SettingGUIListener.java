@@ -70,83 +70,92 @@ public class SettingGUIListener implements Listener {
             return;
         }
 
-        if(action.equals("game_duration")) {
-            if(e.isLeftClick() && !e.isShiftClick()) {
-                if(GameManager.get().time() <= 5 * 60) return;
-                GameManager.get().time(GameManager.get().time() - 5 * 60);
-            } else if(e.isRightClick() && !e.isShiftClick()) {
-                GameManager.get().time(GameManager.get().time() + 5 * 60);
-            } else if(e.isShiftClick() && e.isRightClick()) {
-                GameManager.get().time(GameManager.get().time() + 15 * 60);
-            } else if(e.isShiftClick() && e.isLeftClick()) {
-                if(GameManager.get().time() <= 15 * 60) return;
-                GameManager.get().time(GameManager.get().time() - 15 * 60);
+        switch (action) {
+            case "game_duration" -> {
+                if (e.isLeftClick() && !e.isShiftClick()) {
+                    if (GameManager.get().time() <= 5 * 60) return;
+                    GameManager.get().time(GameManager.get().time() - 5 * 60);
+                } else if (e.isRightClick() && !e.isShiftClick()) {
+                    GameManager.get().time(GameManager.get().time() + 5 * 60);
+                } else if (e.isShiftClick() && e.isRightClick()) {
+                    GameManager.get().time(GameManager.get().time() + 15 * 60);
+                } else if (e.isShiftClick() && e.isLeftClick()) {
+                    if (GameManager.get().time() <= 15 * 60) return;
+                    GameManager.get().time(GameManager.get().time() - 15 * 60);
+                }
+                DurationGUI.guis.forEach(DurationGUI::update);
+                return;
             }
-            return;
-        }
-        if(action.equals("drop_interval")) {
-            if(e.isLeftClick() && !e.isShiftClick()) {
-                if(GameManager.get().dropInterval() <= 1) return;
-                GameManager.get().dropInterval(GameManager.get().dropInterval() - 1);
-            } else if(e.isRightClick() && !e.isShiftClick()) {
-                GameManager.get().dropInterval(GameManager.get().dropInterval() + 1);
-            } else if(e.isShiftClick() && e.isRightClick()) {
-                GameManager.get().dropInterval(GameManager.get().dropInterval() + 5);
-            } else if(e.isShiftClick() && e.isLeftClick()) {
-                if(GameManager.get().dropInterval() <= 5) return;
-                GameManager.get().dropInterval(GameManager.get().dropInterval() - 5);
+            case "drop_interval" -> {
+                if (e.isLeftClick() && !e.isShiftClick()) {
+                    if (GameManager.get().dropInterval() <= 1) return;
+                    GameManager.get().dropInterval(GameManager.get().dropInterval() - 1);
+                } else if (e.isRightClick() && !e.isShiftClick()) {
+                    GameManager.get().dropInterval(GameManager.get().dropInterval() + 1);
+                } else if (e.isShiftClick() && e.isRightClick()) {
+                    GameManager.get().dropInterval(GameManager.get().dropInterval() + 5);
+                } else if (e.isShiftClick() && e.isLeftClick()) {
+                    if (GameManager.get().dropInterval() <= 5) return;
+                    GameManager.get().dropInterval(GameManager.get().dropInterval() - 5);
+                }
+                DurationGUI.guis.forEach(DurationGUI::update);
+                return;
             }
-            return;
-        }
-        if(action.equals("shopping_duration")) {
-            if(e.isLeftClick() && !e.isShiftClick()) {
-                if(GameManager.get().dropInterval() <= 5) return;
-                GameManager.get().dropInterval(GameManager.get().dropInterval() - 5);
-            } else if(e.isRightClick() && !e.isShiftClick()) {
-                GameManager.get().dropInterval(GameManager.get().dropInterval() + 5);
-            } else if(e.isShiftClick() && e.isRightClick()) {
-                GameManager.get().dropInterval(GameManager.get().dropInterval() + 10);
-            } else if(e.isShiftClick() && e.isLeftClick()) {
-                if(GameManager.get().dropInterval() <= 10) return;
-                GameManager.get().dropInterval(GameManager.get().dropInterval() - 10);
+            case "shopping_duration" -> {
+                if (e.isLeftClick() && !e.isShiftClick()) {
+                    if (GameManager.get().shoppingTime() <= 5) return;
+                    GameManager.get().shoppingTime(GameManager.get().shoppingTime() - 5);
+                } else if (e.isRightClick() && !e.isShiftClick()) {
+                    GameManager.get().shoppingTime(GameManager.get().shoppingTime() + 5);
+                } else if (e.isShiftClick() && e.isRightClick()) {
+                    GameManager.get().shoppingTime(GameManager.get().shoppingTime() + 10);
+                } else if (e.isShiftClick() && e.isLeftClick()) {
+                    if (GameManager.get().shoppingTime() <= 10) return;
+                    GameManager.get().shoppingTime(GameManager.get().shoppingTime() - 10);
+                }
+                DurationGUI.guis.forEach(DurationGUI::update);
+                return;
             }
-            return;
+            case "island_width" -> {
+                if (e.isLeftClick()) {
+                    if (GameManager.get().islandWidth() <= 1) return;
+                    GameManager.get().islandWidth(GameManager.get().islandWidth() - 1);
+                } else if (e.isRightClick()) {
+                    GameManager.get().islandWidth(GameManager.get().islandWidth() + 1);
+                }
+                IslandGUI.guis.forEach(IslandGUI::update);
+                return;
+            }
+            case "toggle_pvp_phase" -> {
+                if (e.isLeftClick()) {
+                    GameManager.get().pvpPhase(!GameManager.get().pvpPhase());
+                }
+                UtilityGUI.guis.forEach(UtilityGUI::update);
+                return;
+            }
+            case "toggle_destroying" -> {
+                if (e.isLeftClick()) {
+                    GameManager.get().canDestroy(!GameManager.get().canDestroy());
+                }
+                UtilityGUI.guis.forEach(UtilityGUI::update);
+                return;
+            }
+            case "toggle_keep_inventory" -> {
+                if (e.isLeftClick()) {
+                    GameManager.get().keepInventory(!GameManager.get().keepInventory());
+                }
+                UtilityGUI.guis.forEach(UtilityGUI::update);
+                return;
+            }
+            case "toggle_gravity" -> {
+                if (e.isLeftClick()) {
+                    GameManager.get().gravity(!GameManager.get().gravity());
+                }
+                UtilityGUI.guis.forEach(UtilityGUI::update);
+                return;
+            }
         }
 
-        if(action.equals("island_width")) {
-            if(e.isLeftClick()) {
-                if(GameManager.get().islandWidth() <= 1) return;
-                GameManager.get().islandWidth(GameManager.get().islandWidth() - 1);
-            } else if(e.isRightClick()) {
-                GameManager.get().islandWidth(GameManager.get().islandWidth() + 1);
-            }
-            return;
-        }
-
-        if(action.equals("toggle_pvp_phase")) {
-            if(e.isLeftClick()) {
-                GameManager.get().pvpPhase(!GameManager.get().pvpPhase());
-            }
-            return;
-        }
-        if(action.equals("toggle_destroying")) {
-            if(e.isLeftClick()) {
-                GameManager.get().canDestroy(!GameManager.get().canDestroy());
-            }
-            return;
-        }
-        if(action.equals("toggle_keep_inventory")) {
-            if(e.isLeftClick()) {
-                GameManager.get().keepInventory(!GameManager.get().keepInventory());
-            }
-            return;
-        }
-        if(action.equals("toggle_gravity")) {
-            if(e.isLeftClick()) {
-                GameManager.get().gravity(!GameManager.get().gravity());
-            }
-            return;
-        }
     }
 
 }
