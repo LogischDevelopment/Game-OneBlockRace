@@ -87,4 +87,10 @@ public class TeamManager {
         return aroundTeams;
     }
 
+    public void setupCoins() {
+        for(Team team : this.teams) {
+            team.coins(team.getScore());
+        }
+    }
+
 }

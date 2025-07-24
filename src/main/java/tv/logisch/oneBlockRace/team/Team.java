@@ -16,6 +16,7 @@ public class Team {
     private final List<Player> players;
     private final List<Block> placedBlocks;
     private Location island;
+    private int coins;
 
     public Team() {
         this.players = new ArrayList<>();
@@ -66,6 +67,10 @@ public class Team {
         if(placedBlocks.isEmpty()) return 0;
         if(placedBlocks.getFirst() == null) return 0;
         return placedBlocks.getFirst().getLocation().getBlockZ();
+    }
+
+    public void coins(int coins) {
+        this.coins = coins;
     }
 
 }
