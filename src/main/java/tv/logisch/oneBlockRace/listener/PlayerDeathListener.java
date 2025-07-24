@@ -16,6 +16,8 @@ import tv.logisch.oneBlockRace.manager.GameManager;
 import tv.logisch.oneBlockRace.team.Team;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Stream;
 
 public class PlayerDeathListener implements Listener {
@@ -90,16 +92,23 @@ public class PlayerDeathListener implements Listener {
         }
 
         if(GameManager.get().state().equals(GameState.PVP)) {
-            e.setCancelled(true);
-            p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_DEATH, 1, 1);
-            p.playEffect(EntityEffect.ENTITY_DEATH);
-            p.setGameMode(GameMode.SPECTATOR);
-            Bukkit.getOnlinePlayers().forEach(target -> {
-                target.sendMessage(Component.text(OneBlockRace.instance().prefix()+"§f"+p.getName()+" §7is disqualified!"));
-            });
-            List<? extends Player> players = Bukkit.getOnlinePlayers().stream().filter(pl -> pl.getGameMode().equals(GameMode.SURVIVAL)).toList();
-            if(players.size() <= 1) {
-                GameManager.get().stopAfterPvp(players.getFirst());
+            if(e.getFinalDamage() >= p.getHealth()) {
+                e.setCancelled(true);
+                p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_DEATH, 1, 1);
+                p.playEffect(EntityEffect.ENTITY_DEATH);
+                p.setGameMode(GameMode.SPECTATOR);
+                AtomicInteger count = new AtomicInteger();
+                AtomicReference<Player> winner = new AtomicReference<>();
+                Bukkit.getOnlinePlayers().forEach(target -> {
+                    target.sendMessage(Component.text(OneBlockRace.instance().prefix() + "§f" + p.getName() + " §7is disqualified!"));
+                    if (target.getGameMode().equals(GameMode.SURVIVAL)) {
+                        count.getAndIncrement();
+                        winner.set(target);
+                    }
+                });
+                if(count.get() <= 1) {
+                    GameManager.get().stopAfterPvp(winner.get());
+                }
             }
         }
 
