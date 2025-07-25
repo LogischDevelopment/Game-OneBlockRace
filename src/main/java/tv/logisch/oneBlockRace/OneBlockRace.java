@@ -69,6 +69,7 @@ public final class OneBlockRace extends JavaPlugin {
         pm.registerEvents(new BlockRedstoneListener(), this);
         pm.registerEvents(new BlockPhysicsListener(), this);
         pm.registerEvents(new BlockGrowListener(), this);
+        pm.registerEvents(new TNTExplosionListener(), this);
 
         PluginCommand event = getCommand("event");
         event.setExecutor(new EventCommand());
