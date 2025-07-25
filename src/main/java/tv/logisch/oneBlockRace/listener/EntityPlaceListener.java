@@ -13,7 +13,6 @@ public class EntityPlaceListener implements Listener {
     public void onEntityPlace(EntityPlaceEvent e) {
 
         if(!GameManager.get().state().equals(GameState.RUNNING)) {
-            e.setCancelled(true);
             return;
         }
 

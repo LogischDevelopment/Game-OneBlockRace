@@ -11,7 +11,6 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import tv.logisch.oneBlockRace.OneBlockRace;
 import tv.logisch.oneBlockRace.enums.GameState;
 import tv.logisch.oneBlockRace.manager.GameManager;
-import tv.logisch.oneBlockRace.scoreboard.Scoreboard;
 import tv.logisch.oneBlockRace.team.Team;
 
 public class BlockPlaceListener implements Listener {
@@ -22,12 +21,14 @@ public class BlockPlaceListener implements Listener {
 
         if(GameManager.get().state().equals(GameState.PVP)) {
             if (e.getBlockPlaced().getType().equals(Material.BRICKS)) {
+                e.setCancelled(false);
                 Bukkit.getScheduler().runTaskLater(OneBlockRace.instance(), () -> {
                     e.getBlockPlaced().setType(Material.AIR);
                 }, 7*20L);
                 return;
             }
             if(e.getBlockPlaced().getType().equals(Material.TNT)) {
+                e.setCancelled(false);
                 e.getBlockPlaced().setType(Material.AIR);
 
                 Location loc = e.getBlockPlaced().getLocation().add(0.5, 0, 0.5);
@@ -37,6 +38,7 @@ public class BlockPlaceListener implements Listener {
                 return;
             }
             if(e.getBlockPlaced().getType().equals(Material.COBWEB)) {
+                e.setCancelled(false);
                 Bukkit.getScheduler().runTaskLater(OneBlockRace.instance(), () -> {
                     e.getBlockPlaced().setType(Material.AIR);
                 }, 16*20L);

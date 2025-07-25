@@ -14,8 +14,11 @@ public class PlayerInteractListener implements Listener {
 
         if(e.getInteractionPoint() == null) return;
 
-        if(!GameManager.get().state().equals(GameState.RUNNING)) {
+        if(GameManager.get().state().equals(GameState.STARTING)) {
             e.setCancelled(true);
+            return;
+        }
+        if(!GameManager.get().state().equals(GameState.RUNNING)) {
             return;
         }
 
