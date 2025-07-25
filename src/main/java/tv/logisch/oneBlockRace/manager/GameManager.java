@@ -153,6 +153,7 @@ public class GameManager {
 
         AtomicInteger taskId = new AtomicInteger();
         taskId.set(Bukkit.getScheduler().runTaskTimer(OneBlockRace.instance(), () -> {
+            this.shoppingTime--;
             if(this.shoppingTime <= 0) {
                 Bukkit.getScheduler().cancelTask(taskId.get());
                 this.startPVP();
@@ -169,7 +170,6 @@ public class GameManager {
                     p.sendActionBar(Component.text(OneBlockRace.instance().prefix()+"Current coins: §f"+this.teamManager.getTeam(p).coins()));
                 });
             }
-            this.shoppingTime--;
         }, 20, 20).getTaskId());
     }
 
