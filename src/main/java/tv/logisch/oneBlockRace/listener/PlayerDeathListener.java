@@ -110,7 +110,10 @@ public class PlayerDeathListener implements Listener {
                     GameManager.get().stopAfterPvp(winner.get());
                 }
             }
+            return;
         }
+
+        e.setCancelled(true);
 
     }
 
