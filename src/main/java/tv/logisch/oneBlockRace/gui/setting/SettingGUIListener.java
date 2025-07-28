@@ -124,7 +124,7 @@ public class SettingGUIListener implements Listener {
                 return;
             }
             case "island_width" -> {
-                if(!GameManager.get().state().equals(GameState.WAITING) && !GameManager.get().state().equals(GameState.STARTING) && !GameManager.get().state().equals(GameState.RUNNING)) return;
+                if(!GameManager.get().state().equals(GameState.WAITING)) return;
                 if (e.isLeftClick()) {
                     if (GameManager.get().islandWidth() <= 1) return;
                     GameManager.get().islandWidth(GameManager.get().islandWidth() - 1);
