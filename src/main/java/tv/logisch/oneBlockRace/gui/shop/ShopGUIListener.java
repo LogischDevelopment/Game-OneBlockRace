@@ -25,6 +25,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import tv.logisch.oneBlockRace.OneBlockRace;
+import tv.logisch.oneBlockRace.enums.GameState;
 import tv.logisch.oneBlockRace.manager.GameManager;
 import tv.logisch.oneBlockRace.team.Team;
 
@@ -111,6 +112,7 @@ public class ShopGUIListener implements Listener {
 
     @EventHandler
     public void onPlayerArmorChange(PlayerArmorChangeEvent e) {
+        if(!GameManager.get().state().equals(GameState.PVP)) return;
         if(!e.getSlot().equals(EquipmentSlot.HEAD)) return;
 
         if(e.getNewItem().getType().equals(Material.TURTLE_HELMET)) {
@@ -132,6 +134,7 @@ public class ShopGUIListener implements Listener {
 
     @EventHandler
     public void onPlayerItemConsumeEvent(PlayerItemConsumeEvent e) {
+        if(!GameManager.get().state().equals(GameState.PVP)) return;
 
         ItemStack item = e.getItem();
         if(item.getType().equals(Material.SUSPICIOUS_STEW)) {
