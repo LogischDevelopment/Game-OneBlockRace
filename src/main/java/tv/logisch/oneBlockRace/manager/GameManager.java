@@ -19,6 +19,7 @@ import tv.logisch.oneBlockRace.utils.AnimationUtils;
 import tv.logisch.oneBlockRace.utils.Format;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -52,6 +53,8 @@ public class GameManager {
     private final NamespacedKey shopKey = new NamespacedKey("logisch_obr", "shop");
     private final NamespacedKey settingsKey = new NamespacedKey("logisch_obr", "settings");
 
+    private List<UUID> skippingVotes;
+
     private TeamManager teamManager;
     private ItemManager itemManager;
     private IslandManager islandManager;
@@ -63,6 +66,7 @@ public class GameManager {
         this.teamManager = new TeamManager();
         this.islandManager = new IslandManager(islandWidth);
         this.itemManager = new ItemManager(teamManager, "§b§lOBR §8» §7Next drop in §f%S% §7seconds!");
+        this.skippingVotes = new ArrayList<>();
     }
 
     public void start() {
@@ -297,6 +301,24 @@ public class GameManager {
 
             }
         }, 20, 20);
+    }
+
+    public int getRequiredVotesToSkip() {
+        return Bukkit.getOnlinePlayers().size()/ 2 + 1;
+    }
+
+    public boolean addSkippingVote(UUID uuid) {
+        if(skippingVotes.contains(uuid)) return false;
+        skippingVotes.add(uuid);
+        if(skippingVotes.size() >= this.getRequiredVotesToSkip()) {
+            skippingVotes.clear();
+            if(this.state.equals(GameState.SHOPPING)) {
+                this.shoppingTime(10);
+                return true;
+            }
+            return false;
+        }
+        return true;
     }
 
     public boolean isHost(UUID uuid) {

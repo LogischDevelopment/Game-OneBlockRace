@@ -1,0 +1,42 @@
+package tv.logisch.oneBlockRace.commands;
+
+import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import tv.logisch.oneBlockRace.OneBlockRace;
+import tv.logisch.oneBlockRace.enums.GameState;
+import tv.logisch.oneBlockRace.manager.GameManager;
+
+public class SkipShopping implements CommandExecutor {
+    @Override
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
+
+        if(!(sender instanceof Player p)) {
+            sender.sendMessage("This command can only be used by players.");
+            return true;
+        }
+
+        if(!GameManager.get().state().equals(GameState.SHOPPING)) {
+            p.sendMessage(Component.text(OneBlockRace.instance().prefix()+"§cYou can only vote to skip shopping during the shopping phase."));
+            return true;
+        }
+
+        boolean success = GameManager.get().addSkippingVote(p.getUniqueId());
+        if(!success) {
+            p.sendMessage(Component.text(OneBlockRace.instance().prefix()+"§cYou have already voted to skip shopping."));
+            return true;
+        }
+        sender.sendMessage(Component.text(OneBlockRace.instance().prefix()+"Success fully voted to §askip §7shopping!"));
+
+        Bukkit.getOnlinePlayers().forEach(target -> {
+            target.sendMessage(Component.text(OneBlockRace.instance().prefix()+"§f"+p.getName()+" §7has voted to skip shopping! §8[§f"+GameManager.get().skippingVotes().size()+"§8/§f"+GameManager.get().getRequiredVotesToSkip()+"§8]"));
+        });
+
+        return true;
+
+    }
+}

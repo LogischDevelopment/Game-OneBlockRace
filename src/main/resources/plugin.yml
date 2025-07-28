@@ -10,3 +10,5 @@ commands:
   event:
     description: Configure the oneblockrace event
     usage: /event
+  skip:
+    description: Skip the shopping phase
