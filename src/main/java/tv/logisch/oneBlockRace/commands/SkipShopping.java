@@ -21,6 +21,12 @@ public class SkipShopping implements CommandExecutor {
         }
 
         if(!GameManager.get().state().equals(GameState.SHOPPING)) {
+
+            if(GameManager.get().state().equals(GameState.RUNNING) && p.hasPermission("logisch.oneblockrace.admin")) {
+                GameManager.get().timeLeft(30);
+                return true;
+            }
+
             p.sendMessage(Component.text(OneBlockRace.instance().prefix()+"§cYou can only vote to skip shopping during the shopping phase."));
             return true;
         }
