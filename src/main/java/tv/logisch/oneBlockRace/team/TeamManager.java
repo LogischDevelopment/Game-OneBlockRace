@@ -1,6 +1,7 @@
 package tv.logisch.oneBlockRace.team;
 
 import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.bukkit.entity.Player;
 
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@Setter
 @Accessors(fluent = true)
 public class TeamManager {
 

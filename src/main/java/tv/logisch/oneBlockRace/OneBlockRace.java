@@ -9,6 +9,7 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import tv.logisch.api.LogiAPI;
+import tv.logisch.oneBlockRace.commands.CoinsCommand;
 import tv.logisch.oneBlockRace.commands.EventCommand;
 import tv.logisch.oneBlockRace.commands.SkipShopping;
 import tv.logisch.oneBlockRace.commands.completions.EventCompletion;
@@ -77,6 +78,7 @@ public final class OneBlockRace extends JavaPlugin {
         event.setTabCompleter(new EventCompletion());
 
         getCommand("skip").setExecutor(new SkipShopping());
+        getCommand("coins").setExecutor(new CoinsCommand());
 
         Bukkit.createWorld(new WorldCreator("world"));
         Bukkit.createWorld(new WorldCreator("waiting")).setGameRule(GameRule.RANDOM_TICK_SPEED, 0);

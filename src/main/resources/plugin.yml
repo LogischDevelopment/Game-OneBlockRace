@@ -12,3 +12,5 @@ commands:
     usage: /event
   skip:
     description: Skip the shopping phase
+  coins:
+    description: Manage coins of any team
