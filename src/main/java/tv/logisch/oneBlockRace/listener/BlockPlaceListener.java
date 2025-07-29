@@ -44,6 +44,18 @@ public class BlockPlaceListener implements Listener {
                 }, 16*20L);
                 return;
             }
+            if(e.getBlockPlaced().getType().equals(Material.LAVA)) {
+                e.setCancelled(false);
+                return;
+            }
+            if(e.getBlockPlaced().getType().equals(Material.WATER)) {
+                e.setCancelled(false);
+                return;
+            }
+            if(e.getBlockPlaced().getType().equals(Material.PUFFERFISH)) {
+                e.setCancelled(false);
+                return;
+            }
         }
 
         if(!GameManager.get().state().equals(GameState.RUNNING)) {
