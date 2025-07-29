@@ -94,6 +94,39 @@ public class PlayerDeathListener implements Listener {
         if(GameManager.get().state().equals(GameState.PVP)) {
             if(e.getFinalDamage() >= p.getHealth()) {
                 e.setCancelled(true);
+
+                ItemStack mainHand = p.getInventory().getItemInMainHand();
+                ItemStack offHand = p.getInventory().getItemInOffHand();
+                ItemStack totem = null;
+                boolean offhand = false;
+
+                if (mainHand.getType().equals(Material.TOTEM_OF_UNDYING)) {
+                    totem = mainHand;
+                } else if (offHand.getType().equals(Material.TOTEM_OF_UNDYING)) {
+                    totem = offHand;
+                    offhand = true;
+                }
+
+                if (totem != null) {
+                    p.setFireTicks(0);
+                    p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 45*20, 2));
+                    p.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 5*20, 2));
+                    p.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 40*20, 1));
+                    p.getWorld().playSound(p.getLocation(), Sound.ITEM_TOTEM_USE, 1, 1);
+                    p.playEffect(EntityEffect.PROTECTED_FROM_DEATH);
+
+                    if (totem.getAmount() > 1) {
+                        totem.setAmount(totem.getAmount() - 1);
+                    } else {
+                        if (offhand) {
+                            p.getInventory().setItemInOffHand(null);
+                        } else {
+                            p.getInventory().setItemInMainHand(null);
+                        }
+                    }
+                    return;
+                }
+
                 p.getWorld().playSound(p.getLocation(), Sound.ENTITY_PLAYER_DEATH, 2, 2);
                 p.playEffect(EntityEffect.ENTITY_DEATH);
                 if(!GameManager.get().keepInventory()) {
