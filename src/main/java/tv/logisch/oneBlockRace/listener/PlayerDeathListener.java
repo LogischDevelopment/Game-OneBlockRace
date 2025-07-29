@@ -94,8 +94,12 @@ public class PlayerDeathListener implements Listener {
         if(GameManager.get().state().equals(GameState.PVP)) {
             if(e.getFinalDamage() >= p.getHealth()) {
                 e.setCancelled(true);
-                p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_DEATH, 1, 1);
+                p.getWorld().playSound(p.getLocation(), Sound.ENTITY_PLAYER_DEATH, 2, 2);
                 p.playEffect(EntityEffect.ENTITY_DEATH);
+                if(!GameManager.get().keepInventory()) {
+                    p.getInventory().forEach(is -> p.getWorld().dropItemNaturally(p.getLocation(), is));
+                    p.getInventory().clear();
+                }
                 p.setGameMode(GameMode.SPECTATOR);
                 AtomicInteger count = new AtomicInteger();
                 AtomicReference<Player> winner = new AtomicReference<>();
