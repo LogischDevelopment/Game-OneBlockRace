@@ -13,6 +13,7 @@ public class PlayerBucketEmptyListener implements Listener {
     public void onPlayerBucketEmpty(PlayerBucketEmptyEvent e) {
 
         if(!GameManager.get().state().equals(GameState.RUNNING)) {
+            if(GameManager.get().state().equals(GameState.PVP)) return;
             e.setCancelled(true);
             return;
         }
