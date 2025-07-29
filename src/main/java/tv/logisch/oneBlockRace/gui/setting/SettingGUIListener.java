@@ -14,12 +14,9 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.MenuType;
-import org.bukkit.inventory.view.AnvilView;
 import org.bukkit.persistence.PersistentDataType;
 import tv.logisch.oneBlockRace.OneBlockRace;
 import tv.logisch.oneBlockRace.enums.GameState;
-import tv.logisch.oneBlockRace.gui.shop.WeaponGUI;
 import tv.logisch.oneBlockRace.manager.GameManager;
 
 public class SettingGUIListener implements Listener {
