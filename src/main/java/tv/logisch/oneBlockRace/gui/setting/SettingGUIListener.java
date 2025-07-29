@@ -12,10 +12,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.MenuType;
+import org.bukkit.inventory.view.AnvilView;
 import org.bukkit.persistence.PersistentDataType;
 import tv.logisch.oneBlockRace.OneBlockRace;
 import tv.logisch.oneBlockRace.enums.GameState;
+import tv.logisch.oneBlockRace.gui.shop.WeaponGUI;
 import tv.logisch.oneBlockRace.manager.GameManager;
 
 public class SettingGUIListener implements Listener {
@@ -56,16 +60,6 @@ public class SettingGUIListener implements Listener {
 
         String action = clicked.getItemMeta().getPersistentDataContainer().get(key, PersistentDataType.STRING);
         if(action == null) return;
-
-        if(action.equalsIgnoreCase("start_game")) {
-            if(!GameManager.get().state().equals(GameState.WAITING)) {
-                p.sendMessage(Component.text(OneBlockRace.instance().prefix()+"§cYou can only start the game when it is in the waiting state!"));
-                return;
-            }
-            GameManager.get().start();
-            p.playSound(p, Sound.BLOCK_NOTE_BLOCK_HAT, 1.0f, 1.0f);
-            return;
-        }
 
         if(action.equalsIgnoreCase("open_duration")) {
             DurationGUI.get(p).open();
@@ -180,6 +174,32 @@ public class SettingGUIListener implements Listener {
                 UtilityGUI.guis.forEach(UtilityGUI::update);
                 return;
             }
+        }
+
+    }
+
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent e) {
+        if(!e.getAction().isRightClick()) return;
+        if(e.getItem() == null) return;
+        if(!e.getItem().getPersistentDataContainer().has(GameManager.get().settingsKey())) return;
+
+        String s = e.getItem().getPersistentDataContainer().get(GameManager.get().settingsKey(), PersistentDataType.STRING);
+        if(s == null || s.isEmpty()) return;
+
+        if(s.equalsIgnoreCase("open_settings")) {
+            DurationGUI.get(e.getPlayer()).open();
+            e.getPlayer().playSound(e.getPlayer(), Sound.BLOCK_NOTE_BLOCK_COW_BELL, 1.0f, 1.0f);
+            return;
+        }
+        if(s.equalsIgnoreCase("start_game")) {
+            if(!GameManager.get().state().equals(GameState.WAITING)) {
+                e.getPlayer().sendMessage(Component.text(OneBlockRace.instance().prefix()+"§cYou can only start the game when it is in the waiting state!"));
+                return;
+            }
+            GameManager.get().start();
+            e.getPlayer().playSound(e.getPlayer(), Sound.BLOCK_NOTE_BLOCK_COW_BELL, 1.0f, 1.0f);
+            return;
         }
 
     }
