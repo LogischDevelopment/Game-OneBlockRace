@@ -88,7 +88,7 @@ public class BlockPlaceListener implements Listener {
             return;
         }
 
-        team.addBlock(e.getBlockPlaced());
+        if(!e.getBlockPlaced().getType().name().toLowerCase().contains("sapling")) team.addBlock(e.getBlockPlaced());
 
     }
 
