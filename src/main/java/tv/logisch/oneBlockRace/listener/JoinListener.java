@@ -48,7 +48,7 @@ public class JoinListener implements Listener {
                     m.lore(List.of(
                             Component.text("§7Click to open the settings menu.")
                     ));
-                    m.getPersistentDataContainer().set(GameManager.get().settingsKey(), PersistentDataType.STRING, "open_duration");
+                    m.getPersistentDataContainer().set(GameManager.get().settingsKey(), PersistentDataType.STRING, "open_settings");
                 });
                 p.getInventory().setItem(4, item);
 
