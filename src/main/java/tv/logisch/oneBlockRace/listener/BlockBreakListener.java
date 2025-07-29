@@ -20,18 +20,18 @@ public class BlockBreakListener implements Listener {
             return;
         }
 
-        if(!GameManager.get().canDestroy()) {
+        Team team = GameManager.get().teamManager().getTeam(e.getPlayer());
+        if(team == null) {
             e.setCancelled(true);
+            return;
+        }
+
+        if(!GameManager.get().canDestroy()) {
+            e.setCancelled(team.placedBlocks().contains(e.getBlock()));
             return;
         }
 
         if(e.getBlock().getLocation().getBlockZ() < 1) {
-            e.setCancelled(true);
-            return;
-        }
-
-        Team team = GameManager.get().teamManager().getTeam(e.getPlayer());
-        if(team == null) {
             e.setCancelled(true);
             return;
         }
