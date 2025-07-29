@@ -71,7 +71,11 @@ public class JoinListener implements Listener {
         }
 
         if(GameManager.get().state().equals(GameState.SHOPPING)) {
-            e.getPlayer().setGameMode(GameMode.ADVENTURE);
+            if(!p.hasPlayedBefore()) {
+                e.getPlayer().setGameMode(GameMode.SPECTATOR);
+            } else {
+                e.getPlayer().setGameMode(GameMode.ADVENTURE);
+            }
             e.getPlayer().teleport(GameManager.get().waitingWorld().getSpawnLocation());
             Scoreboard.scoreboards.add(new Scoreboard(p));
             return;
