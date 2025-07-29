@@ -11,7 +11,7 @@ import java.util.List;
 public class ShopUtils {
 
     public static ItemStack createShopItem(Material type, String name, String description, int price) {
-        double newPrice = price * 0.01; // Convert price to coins
+        double newPrice = price * 0.1; // Convert price to coins
         price = (int) newPrice;
         ItemStack item = new ItemStack(type);
         int finalPrice = price;
