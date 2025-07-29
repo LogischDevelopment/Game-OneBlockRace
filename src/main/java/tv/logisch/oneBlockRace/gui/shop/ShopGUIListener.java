@@ -162,11 +162,13 @@ public class ShopGUIListener implements Listener {
 
         if(s.equalsIgnoreCase("open")) {
             WeaponGUI.get(e.getPlayer()).open();
+            e.getPlayer().playSound(e.getPlayer(), Sound.BLOCK_NOTE_BLOCK_COW_BELL, 1.0f, 1.0f);
             return;
         }
         if(s.equalsIgnoreCase("anvil")) {
             AnvilView anvilView = MenuType.ANVIL.create(e.getPlayer());
             e.getPlayer().openInventory(anvilView);
+            e.getPlayer().playSound(e.getPlayer(), Sound.BLOCK_NOTE_BLOCK_COW_BELL, 1.0f, 1.0f);
             return;
         }
 
