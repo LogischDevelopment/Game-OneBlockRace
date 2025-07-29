@@ -57,6 +57,16 @@ public class SettingGUIListener implements Listener {
         String action = clicked.getItemMeta().getPersistentDataContainer().get(key, PersistentDataType.STRING);
         if(action == null) return;
 
+        if(action.equalsIgnoreCase("start_game")) {
+            if(!GameManager.get().state().equals(GameState.WAITING)) {
+                p.sendMessage(Component.text(OneBlockRace.instance().prefix()+"§cYou can only start the game when it is in the waiting state!"));
+                return;
+            }
+            GameManager.get().start();
+            p.playSound(p, Sound.BLOCK_NOTE_BLOCK_HAT, 1.0f, 1.0f);
+            return;
+        }
+
         if(action.equalsIgnoreCase("open_duration")) {
             DurationGUI.get(p).open();
             p.playSound(p, Sound.BLOCK_NOTE_BLOCK_HAT, 1.0f, 1.0f);
