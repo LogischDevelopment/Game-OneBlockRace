@@ -154,7 +154,6 @@ public class SettingGUIListener implements Listener {
                 return;
             }
             case "toggle_keep_inventory" -> {
-                if(!GameManager.get().state().equals(GameState.WAITING) && !GameManager.get().state().equals(GameState.STARTING) && !GameManager.get().state().equals(GameState.RUNNING)) return;
                 if (e.isLeftClick()) {
                     GameManager.get().keepInventory(!GameManager.get().keepInventory());
                 }
