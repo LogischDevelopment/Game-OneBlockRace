@@ -4,16 +4,20 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 import tv.logisch.oneBlockRace.OneBlockRace;
 import tv.logisch.oneBlockRace.enums.GameState;
 import tv.logisch.oneBlockRace.manager.GameManager;
 import tv.logisch.oneBlockRace.scoreboard.Scoreboard;
 import tv.logisch.oneBlockRace.team.Team;
+
+import java.util.List;
 
 public class JoinListener implements Listener {
 
@@ -35,6 +39,30 @@ public class JoinListener implements Listener {
             e.getPlayer().setGameMode(GameMode.ADVENTURE);
             e.getPlayer().teleport(GameManager.get().waitingWorld().getSpawnLocation());
             Scoreboard.scoreboards.add(new Scoreboard(p));
+
+            if(p.hasPermission("logisch.manhunt.admin") || GameManager.get().isHost(p.getUniqueId())) {
+
+                ItemStack item = new ItemStack(Material.COMMAND_BLOCK, 1);
+                item.editMeta(m -> {
+                    m.displayName(Component.text("§8» §f§lSettings"));
+                    m.lore(List.of(
+                            Component.text("§7Click to open the settings menu.")
+                    ));
+                    m.getPersistentDataContainer().set(GameManager.get().settingsKey(), PersistentDataType.STRING, "open_duration");
+                });
+                p.getInventory().setItem(4, item);
+
+                item = new ItemStack(Material.FIREWORK_ROCKET, 1);
+                item.editMeta(m -> {
+                    m.displayName(Component.text("§8» §f§lStart Game"));
+                    m.lore(List.of(
+                            Component.text("§7Click to start the game.")
+                    ));
+                    m.getPersistentDataContainer().set(GameManager.get().settingsKey(), PersistentDataType.STRING, "start_game");
+                });
+                p.getInventory().setItem(8, item);
+            }
+
             return;
         }
 
