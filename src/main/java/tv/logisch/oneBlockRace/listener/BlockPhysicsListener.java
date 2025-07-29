@@ -14,6 +14,10 @@ public class BlockPhysicsListener implements Listener {
 
     @EventHandler
     public void onBlockPhysics(BlockPhysicsEvent event) {
+        if(event.getBlock().getWorld().getName().equals("pvp") || event.getBlock().getWorld().getName().equals("waiting")) {
+            event.setCancelled(true);
+            return;
+        }
         if(GameManager.get().gravity()) return;
         Block block = event.getBlock();
         Material type = block.getType();
