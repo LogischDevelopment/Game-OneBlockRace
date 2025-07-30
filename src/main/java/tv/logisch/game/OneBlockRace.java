@@ -1,5 +1,7 @@
-package tv.logisch.oneBlockRace;
+package tv.logisch.game;
 
+import io.papermc.paper.command.brigadier.Commands;
+import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 import org.bukkit.Bukkit;
@@ -9,15 +11,14 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import tv.logisch.api.LogiAPI;
-import tv.logisch.oneBlockRace.commands.CoinsCommand;
-import tv.logisch.oneBlockRace.commands.EventCommand;
-import tv.logisch.oneBlockRace.commands.SkipShopping;
-import tv.logisch.oneBlockRace.commands.completions.EventCompletion;
-import tv.logisch.oneBlockRace.gui.setting.SettingGUIListener;
-import tv.logisch.oneBlockRace.gui.shop.ShopGUIListener;
-import tv.logisch.oneBlockRace.listener.*;
-import tv.logisch.oneBlockRace.objects.GameConfig;
-import tv.logisch.oneBlockRace.utils.Config;
+import tv.logisch.game.commands.CoinsCommand;
+import tv.logisch.game.commands.EventCommand;
+import tv.logisch.game.commands.SkipCommand;
+import tv.logisch.game.gui.setting.SettingGUIListener;
+import tv.logisch.game.gui.shop.ShopGUIListener;
+import tv.logisch.game.listener.*;
+import tv.logisch.game.objects.GameConfig;
+import tv.logisch.game.utils.Config;
 
 import java.io.File;
 import java.util.logging.Logger;
@@ -73,12 +74,13 @@ public final class OneBlockRace extends JavaPlugin {
         pm.registerEvents(new BlockGrowListener(), this);
         pm.registerEvents(new TNTExplosionListener(), this);
 
-        PluginCommand event = getCommand("event");
-        event.setExecutor(new EventCommand());
-        event.setTabCompleter(new EventCompletion());
+        this.getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, (event) -> {
+            Commands registrar = event.registrar();
 
-        getCommand("skip").setExecutor(new SkipShopping());
-        getCommand("coins").setExecutor(new CoinsCommand());
+            registrar.register("event", new EventCommand());
+            registrar.register("skip", new SkipCommand());
+            registrar.register("coins", new CoinsCommand());
+        });
 
         Bukkit.createWorld(new WorldCreator("world"));
         Bukkit.createWorld(new WorldCreator("waiting")).setGameRule(GameRule.RANDOM_TICK_SPEED, 0);
