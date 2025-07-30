@@ -1,0 +1,7 @@
+name: OneBlockRace
+version: '1.0-SNAPSHOT'
+main: tv.logisch.game.OneBlockRace
+api-version: '1.21'
+authors: [Teekqu]
+description: Plugin for Logisch.tv Network
+website: https://www.logisch.tv/
