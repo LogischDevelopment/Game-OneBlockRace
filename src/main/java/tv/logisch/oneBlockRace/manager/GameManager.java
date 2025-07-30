@@ -307,13 +307,22 @@ public class GameManager {
         return Bukkit.getOnlinePlayers().size()/ 2 + 1;
     }
 
-    public boolean addSkippingVote(UUID uuid) {
-        if(skippingVotes.contains(uuid)) return false;
-        skippingVotes.add(uuid);
+    public boolean addSkippingVote(Player player) {
+        if(skippingVotes.contains(player.getUniqueId())) return false;
+        skippingVotes.add(player.getUniqueId());
+        Bukkit.getOnlinePlayers().forEach(target -> {
+            target.sendMessage(Component.text(OneBlockRace.instance().prefix()+"§f"+player.getName()+" §7has voted to skip shopping! §8[§f"+GameManager.get().skippingVotes().size()+"§8/§f"+GameManager.get().getRequiredVotesToSkip()+"§8]"));
+        });
         if(skippingVotes.size() >= this.getRequiredVotesToSkip()) {
-            skippingVotes.clear();
             if(this.state.equals(GameState.SHOPPING)) {
+                if(this.shoppingTime <= 10) {
+                    return false;
+                }
                 this.shoppingTime(10);
+                Bukkit.getOnlinePlayers().forEach(p -> {
+                    p.sendMessage(Component.text(OneBlockRace.instance().prefix()+"§aThe shopping phase has been skipped!"));
+                    p.playSound(p, Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
+                });
                 return true;
             }
             return false;
