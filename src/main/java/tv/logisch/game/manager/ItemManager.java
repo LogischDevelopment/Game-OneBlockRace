@@ -13,7 +13,10 @@ import tv.logisch.game.OneBlockRace;
 import tv.logisch.game.team.TeamManager;
 import tv.logisch.game.utils.Format;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class ItemManager {
 
@@ -62,18 +65,31 @@ public class ItemManager {
         this.bossBar.removePlayer(player);
     }
 
+
+
+    private static final List<Material> VALID_MATERIALS = Arrays.stream(Material.values())
+            .filter(m -> !m.name().contains("LEGACY"))
+            .filter(m -> !m.name().contains("_SPAWN_EGG"))
+            .filter(m -> !m.name().contains("_BED"))
+            .filter(m -> m != Material.ENDER_PEARL)
+            .filter(Material::isItem)
+            .toList();
+
+    private final Random random = new Random();
+
     private void spawn(Location loc) {
-        Item item = null;
-        while(item == null) {
-            Material material = Material.values()[new Random().nextInt(Material.values().length)];
-            if(material.isItem() && !material.name().contains("_SPAWN_EGG") && !material.equals(Material.ENDER_PEARL) && !material.name().contains("_BED")) {
-                ItemStack stack = new ItemStack(material);
-                item = loc.getWorld().spawn(loc.clone().add(0, 0.5, 0), Item.class);
-                item.setItemStack(stack);
-                item.setGlowing(true);
-                item.setVelocity(new Vector(0, 0, 0));
-            }
+        if (VALID_MATERIALS.isEmpty()) {
+            OneBlockRace.instance().logger().warning("Keine gültigen Materialien zum Spawnen gefunden!");
+            return;
         }
+
+        Material material = VALID_MATERIALS.get(random.nextInt(VALID_MATERIALS.size()));
+        ItemStack stack = new ItemStack(material);
+        Item item = loc.getWorld().spawn(loc.clone().add(0, 0.5, 0), Item.class);
+        item.setItemStack(stack);
+        item.setGlowing(true);
+        item.setVelocity(new Vector(0, 0, 0));
     }
+
 
 }
