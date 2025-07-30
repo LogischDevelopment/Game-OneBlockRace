@@ -23,6 +23,10 @@ public class SkipShopping implements CommandExecutor {
         if(!GameManager.get().state().equals(GameState.SHOPPING)) {
 
             if(GameManager.get().state().equals(GameState.RUNNING) && p.hasPermission("logisch.oneblockrace.admin")) {
+                if(GameManager.get().timeLeft() <= 30) {
+                    p.sendMessage(Component.text(OneBlockRace.instance().prefix()+"§cYou can only vote to skip shopping if there are 30 seconds or less left."));
+                    return true;
+                }
                 GameManager.get().timeLeft(30);
                 return true;
             }
@@ -31,16 +35,11 @@ public class SkipShopping implements CommandExecutor {
             return true;
         }
 
-        boolean success = GameManager.get().addSkippingVote(p.getUniqueId());
+        boolean success = GameManager.get().addSkippingVote(p);
         if(!success) {
-            p.sendMessage(Component.text(OneBlockRace.instance().prefix()+"§cYou have already voted to skip shopping."));
+            p.sendMessage(Component.text(OneBlockRace.instance().prefix()+"§cYou have already voted to skip shopping or the voting period has ended."));
             return true;
         }
-        sender.sendMessage(Component.text(OneBlockRace.instance().prefix()+"Success fully voted to §askip §7shopping!"));
-
-        Bukkit.getOnlinePlayers().forEach(target -> {
-            target.sendMessage(Component.text(OneBlockRace.instance().prefix()+"§f"+p.getName()+" §7has voted to skip shopping! §8[§f"+GameManager.get().skippingVotes().size()+"§8/§f"+GameManager.get().getRequiredVotesToSkip()+"§8]"));
-        });
 
         return true;
 
