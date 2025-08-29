@@ -64,9 +64,9 @@ public class PlayerDeathListener implements Listener {
                             totem.setAmount(totem.getAmount() - 1);
                         } else {
                             if (offhand) {
-                                p.getInventory().setItemInOffHand(null);
+                                p.getInventory().setItemInOffHand(new ItemStack(Material.AIR));
                             } else {
-                                p.getInventory().setItemInMainHand(null);
+                                p.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
                             }
                         }
                     } else {
@@ -128,7 +128,11 @@ public class PlayerDeathListener implements Listener {
                 p.getWorld().playSound(p.getLocation(), Sound.ENTITY_PLAYER_DEATH, 2, 2);
                 p.playEffect(EntityEffect.ENTITY_DEATH);
                 if(!GameManager.get().keepInventory()) {
-                    p.getInventory().forEach(is -> p.getWorld().dropItemNaturally(p.getLocation(), is));
+                    p.getInventory().forEach(is -> {
+                        if(is != null) {
+                            p.getWorld().dropItemNaturally(p.getLocation(), is);
+                        }
+                    });
                     p.getInventory().clear();
                 }
                 p.setGameMode(GameMode.SPECTATOR);
