@@ -180,7 +180,7 @@ public class GameManager {
     public void startPVP() {
         Bukkit.getOnlinePlayers().forEach(p -> {
             p.teleport(this.pvpWorld.getSpawnLocation());
-            p.sendMessage(OneBlockRace.instance().prefix() + "The §fPVP Phase §7has started!");
+            p.sendMessage(OneBlockRace.instance().prefix() + "PvP will be enabled in 20 seconds");
             p.playSound(p, Sound.ITEM_GOAT_HORN_SOUND_1, 1.0f, 1.0f);
             p.setGameMode(GameMode.SURVIVAL);
             p.setLevel(0);
@@ -194,6 +194,27 @@ public class GameManager {
                 }
             }
         });
+        this.state = GameState.PROTECTION;
+        this.startProtectionCountdown();
+    }
+
+    public void startProtectionCountdown() {
+        int countdown = 20;
+        while(countdown > 0) {
+            for(Player p : Bukkit.getOnlinePlayers()) {
+                p.sendActionBar(Component.text(OneBlockRace.instance().prefix()+"PvP protection ends in §f" + countdown + "§7 seconds!"));
+                if(countdown % 5 == 0 || countdown <= 5) {
+                    p.playSound(p, Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
+                }
+            }
+            try { Thread.sleep(1000); } catch (InterruptedException ignored) {  }
+            countdown--;
+        }
+        for(Player p : Bukkit.getOnlinePlayers()) {
+            p.sendMessage(OneBlockRace.instance().prefix() + "PvP protection has ended!");
+            p.playSound(p, Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
+            p.sendActionBar(Component.text(OneBlockRace.instance().prefix()+"PvP is now enabled!"));
+        }
         this.state = GameState.PVP;
     }
 

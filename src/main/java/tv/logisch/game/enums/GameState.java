@@ -6,6 +6,7 @@ public enum GameState {
     STARTING,
     RUNNING,
     SHOPPING,
+    PROTECTION,
     PVP,
     ENDING,
     ENDED
