@@ -293,6 +293,23 @@ public class GameManager {
         }, 20, 20);
     }
 
+    /* RECODE SCOREBOARD UPDATER -> JUST UPDATE REQUIRED SCOREBOARDS */
+    public void updateScoreboard(Player player) {
+        Team team = this.teamManager.getTeam(player);
+        if(team == null) return;
+        this.teamManager.recalcTop();
+        if(this.teamManager.getCachedTop(3).contains(team)) {
+            Scoreboard.scoreboards.forEach(Scoreboard::update);
+            return;
+        }
+        for(Team t : this.teamManager.getAround(team)) {
+            if(t == null) continue;
+            t.players().forEach(p -> {
+                Scoreboard.scoreboards.stream().filter(s -> s.getPlayer().equals(p)).forEach(Scoreboard::update);
+            });
+        }
+    }
+
     int scoreboardTaskId = 0;
     public void startScoreboardUpdater() {
         scoreboardTaskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(OneBlockRace.instance(), () -> {
