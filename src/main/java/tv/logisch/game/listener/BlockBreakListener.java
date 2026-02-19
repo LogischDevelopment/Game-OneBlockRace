@@ -50,6 +50,7 @@ public class BlockBreakListener implements Listener {
         }
 
         team.removeBlock(e.getBlock());
+        GameManager.get().updateScoreboard(e.getPlayer());
 
     }
 
