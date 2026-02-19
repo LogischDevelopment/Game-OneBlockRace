@@ -19,7 +19,7 @@ public class BlockPlaceListener implements Listener {
     public void onBlockPlace(BlockPlaceEvent e) {
         if(e.getPlayer().getGameMode().equals(GameMode.CREATIVE)) return;
 
-        if(GameManager.get().state().equals(GameState.PVP)) {
+        if(GameManager.get().state().equals(GameState.PVP) || GameManager.get().state().equals(GameState.PROTECTION)) {
             if (e.getBlockPlaced().getType().equals(Material.BRICKS)) {
                 e.setCancelled(false);
                 Bukkit.getScheduler().runTaskLater(OneBlockRace.instance(), () -> {
@@ -88,7 +88,10 @@ public class BlockPlaceListener implements Listener {
             return;
         }
 
-        if(!e.getBlockPlaced().getType().name().toLowerCase().contains("sapling")) team.addBlock(e.getBlockPlaced());
+        if(!e.getBlockPlaced().getType().name().toLowerCase().contains("sapling")) {
+            team.addBlock(e.getBlockPlaced());
+            GameManager.get().updateScoreboard(e.getPlayer());
+        }
 
     }
 
