@@ -181,7 +181,7 @@ public class GameManager {
     public void startPVP() {
         Bukkit.getOnlinePlayers().forEach(p -> {
             p.teleport(this.pvpWorld.getSpawnLocation());
-            p.sendMessage(OneBlockRace.instance().prefix() + "PvP will be enabled in 20 seconds");
+            p.sendMessage(OneBlockRace.instance().prefix() + "PvP will be enabled in "+Format.time(this.pvpProtectionTime));
             p.playSound(p, Sound.ITEM_GOAT_HORN_SOUND_1, 1.0f, 1.0f);
             p.setGameMode(GameMode.SURVIVAL);
             p.setLevel(0);
@@ -216,7 +216,7 @@ public class GameManager {
             }
 
             for(Player p : Bukkit.getOnlinePlayers()) {
-                p.sendActionBar(Component.text(OneBlockRace.instance().prefix()+"PvP protection ends in §f" + this.pvpProtectionTime + "§7 seconds!"));
+                p.sendActionBar(Component.text(OneBlockRace.instance().prefix()+"PvP protection ends in §f" + Format.time(this.pvpProtectionTime)));
                 if(this.pvpProtectionTime % 5 == 0 || this.pvpProtectionTime <= 5) {
                     p.playSound(p, Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
                 }
