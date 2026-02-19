@@ -41,7 +41,7 @@ public class Scoreboard extends ScoreboardManager {
     public void update() {
 
         if(player == null || !player.isOnline()) return;
-        List<Team> top = GameManager.get().teamManager().getTop(3);
+        List<Team> top = GameManager.get().teamManager().getCachedTop(3);
         List<String> topNames = new ArrayList<>();
         for(int i = 0; i < 3; i++) {
             if(i < top.size()) {
