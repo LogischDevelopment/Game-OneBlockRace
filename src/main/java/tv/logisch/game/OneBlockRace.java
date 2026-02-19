@@ -7,7 +7,6 @@ import lombok.experimental.Accessors;
 import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
 import org.bukkit.WorldCreator;
-import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import tv.logisch.api.LogiAPI;
