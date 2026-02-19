@@ -27,6 +27,7 @@ public class CoinsCommand implements BasicCommand {
 
         if(args.length < 2) {
             player.sendMessage(OneBlockRace.instance().prefix()+"§cUsage: /coins <player> <amount>");
+            return;
         }
 
         String playerName = args[0];
